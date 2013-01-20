@@ -23,19 +23,17 @@ def show_error(msg):
 
 def cmd_list(args):
     """List all element in pen"""
-    with indent(2):
-        for penlist in store.data:
-            puts(penlist + " (" + str(len(store.data[penlist])) + ")")
+    for penlist in store.data:
+        puts(penlist + " (" + str(len(store.data[penlist])) + ")")
 
 
 def cmd_all(args):
     """List everything recursively"""
-    with indent(2):
-        for penlist in store.data:
-            puts(penlist)
-            with indent(4, '  -'):
-                for penfile in store.data[penlist]:
-                    puts(penfile)
+    for penlist in store.data:
+        puts(penlist)
+        with indent(4, '  -'):
+            for penfile in store.data[penlist]:
+                puts(penfile)
 
 
 def cmd_create_list(args):
