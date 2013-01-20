@@ -29,7 +29,7 @@ def main():
         else:
             cmd_touch_note(args)
     else:
-        display_info()
+        cmd_list(args)
     store.save()
     return ExitStatus.OK
 
