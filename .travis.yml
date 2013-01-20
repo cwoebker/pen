@@ -1,0 +1,31 @@
+language: python
+python:
+  #- "2.5" # clint doesn't support
+  - "2.6"
+  - "2.7"
+  #- "3.2" # not sure
+
+notifications:
+  email:
+    recipients:
+      - me@cwoebker.com
+    #on_success: [always|never|change] # default: change
+    #on_failure: change # [always|never|change] # default: always
+
+# environment variables to set
+#env: RELO_PATH=/path/to/relo
+
+# command to run tests
+#before_script:
+#  -
+script: nosetests
+#after_script:
+#  -
+
+# command to install dependencies
+before_install:
+  - pip install -r reqs.txt --use-mirrors
+install:
+  - python setup.py install
+#after_command:
+#  -
