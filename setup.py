@@ -29,7 +29,7 @@ settings.update(
     name='pen',
     version=pen.__version__,
     description='Simple notes on the command line.',
-    long_description=open('README.rst').read(),
+    long_description=open('README.md').read(),
     author=pen.__author__,
     author_email='me@cwoebker.com',
     url='https://github.com/cwoebker/pen',
