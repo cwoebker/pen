@@ -5,4 +5,4 @@ pen.settings - some global variables
 
 import os
 
-PEN_FILE = os.path.expanduser('~/.pen3')
+PEN_FILE = os.path.expanduser('~/.pen')
