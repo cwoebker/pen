@@ -14,6 +14,7 @@ class ExitStatus:
     """Exit status code constants."""
     OK = 0
     ERROR = 1
+    ABORT = 2
 
 
 def show_error(msg):
@@ -70,16 +71,18 @@ def cmd_delete(args):
     if major != None:
         if major in store.data:
             if minor == None:
-                if raw_input("Are you sure (y/n)? ") in ['y', 'Y', 'yes', 'Yes']:
-                    store.deleteList(major)
-                    puts("List deleted")
+                if len(store.data[major]) > 0:
+                    if raw_input("are you sure (y/n)? ") not in ['y', 'Y', 'yes', 'Yes']:
+                        return ExitStatus.ABORT
+                store.deleteList(major)
+                puts("list deleted")
             elif minor in store.data[major]:
                 store.deleteNote(major, minor)
-                puts("Note deleted")
+                puts("note deleted")
             else:
-                puts("No such note, sorry! (%s)" % minor)
+                puts("no such note, sorry! (%s)" % minor)
         else:
-            puts("No such list, sorry! (%s)" % major)
+            puts("no such list, sorry! (%s)" % major)
     else:
         print """
 - pen: delete help ------------------------------------------------------------
