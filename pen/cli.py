@@ -8,7 +8,7 @@ from clint.textui import colored, puts
 
 from . import __version__
 from .core import ExitStatus, show_error
-from .core import cmd_all, cmd_list, cmd_delete, cmd_create_list, cmd_touch_note
+from .core import cmd_path, cmd_all, cmd_list, cmd_delete, cmd_create_list, cmd_touch_note
 from .storage import store
 
 
@@ -113,6 +113,9 @@ def define_command(name=None, short=None, fn=None, usage=None, help=None):
 
 define_command(name='help', short=['h'], fn=cmd_help, usage='help <command>',
     help='Display help for a command.')
+
+define_command(name='path', fn=cmd_path, usage='path (<pen_file_path>)',
+    help='Sets Pen Storage Path')
 
 define_command(name='list', fn=cmd_list, usage='list (<note>)',
     help='List elements.')

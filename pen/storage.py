@@ -21,6 +21,12 @@ class Storage(object):
     def bootstrap(self):
         if not os.path.exists(PEN_FILE):
             open(PEN_FILE, 'w').write(zlib.compress(json.dumps(self.data)))
+        else:
+            with open(PEN_FILE, 'r') as pen:
+                path = json.loads(zlib.decompress(pen.read()), object_pairs_hook=OrderedDict).get("__PATH__")
+                if path:
+                    self.path = path
+                    open(self.path, 'w').write(zlib.compress(json.dumps(self.data)))
 
     def read(self):
         with open(PEN_FILE, 'r') as pen:

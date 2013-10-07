@@ -4,11 +4,13 @@ pen.core - the basic ingredients to a great battery
 """
 
 import sys
+import os
 
-from clint.textui import puts, indent
+from clint.textui import puts, indent, colored
+from clint import resources
 
 from .storage import store
-
+from .settings import PEN_FILE
 
 class ExitStatus:
     """Exit status code constants."""
@@ -20,6 +22,18 @@ class ExitStatus:
 def show_error(msg):
     sys.stdout.flush()
     sys.stderr.write(msg + '\n')
+
+def cmd_path(args):
+    path = args.get(0)
+    if path:
+        if path == "default":
+            resources.user.write('path.ini', os.path.expanduser('~/.pen'))
+        elif os.path.exists(path) or os.access(os.path.dirname(path), os.W_OK):
+            resources.user.write('path.ini', path)
+        else:
+            puts('{0}'.format(colored.red("Not a valid Path.")))
+    else:
+        print PEN_FILE
 
 
 def cmd_list(args):
