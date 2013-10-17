@@ -1,4 +1,4 @@
-# pen: notes on the command line
+# pen: terminal notes
 
 [`pen`](https://github.com/cwoebker/pen) is a minimalistic not taking app for the command line.
 
@@ -17,7 +17,9 @@ Pen has a minimalistic interface and notes can be added and grouped in a simple 
 
 It's as simple as that:
 
-`$ pip install pen`
+`$ pip install penpal`
+
+Unfortunately pen was already taken.
 
 ## Usage
 

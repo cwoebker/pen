@@ -27,7 +27,7 @@ if sys.argv[-1] == 'publish':
 
 
 settings.update(
-    name='pen',
+    name='penpal',
     version=pen.__version__,
     description='pen: terminal notes',
     long_description=open('README.md').read(),
