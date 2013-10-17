@@ -9,8 +9,8 @@
 ## What is this? ##
 
 With pen you can have notes everywhere. At least on every unix machine.
-What makes it special is that it is a command line application only.
-You can therefore even run it on a server without a gui.
+What makes it special is that it is 'only' command line application.
+You can therefore even run it on a server.
 Pen has a minimalistic interface and notes can be added and grouped in a simple manner.
 
 ## Installation
@@ -21,18 +21,15 @@ It's as simple as that:
 
 ## Usage
 
-`pen <list> (<note>)` - Prints elements in list or opens note.
-
 `pen all` - List all notes recursively.
 
 `pen create <list>` - Create a list.
 
 `pen delete <list> (<note>)` - Delete a list or note.
 
-`pen list <list>` - List elements in a list.
+`pen help` - Displays pen help
 
 `pen help <command>` - Displays help for a command.
-
 
 ## Advanced
 
@@ -40,14 +37,18 @@ It's as simple as that:
 You are free to do whatever you want with the data in that file,
 its yours after all.
 
+You can also change the path of the storage file:
+
+`pen path <new_path>` - Either prints the current storage path or sets a new one.
+
 So go out there and hack some code!
 
 ## Features ##
 
 - Minimalistic and simple note editor.
-- Auto save on close. No accidental closing anymore.
+- Automatic saving when closed.
 - Create lists to group notes.
-- All the data is compressed.
+- Put the storage file wherever you want. (Supports Dropbox & co)
 
 ## Contribute
 

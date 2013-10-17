@@ -58,8 +58,9 @@ def display_info():
 def cmd_help(args):
     command = args.get(0)
     if command == None:
-        command = 'help'
-    if not Command.lookup(command):
+        display_info()
+        return
+    elif not Command.lookup(command):
         command = 'help'
         show_error(colored.red('Unknown command: {0}'.format(args.get(0))))
     cmd = Command.lookup(command)
@@ -117,8 +118,8 @@ define_command(name='help', short=['h'], fn=cmd_help, usage='help <command>',
 define_command(name='path', fn=cmd_path, usage='path (<pen_file_path>)',
     help='Sets Pen Storage Path')
 
-define_command(name='list', fn=cmd_list, usage='list (<note>)',
-    help='List elements.')
+#define_command(name='list', fn=cmd_list, usage='list (<note>)',
+#    help='List elements.')
 
 define_command(name='all', fn=cmd_all, usage='all',
     help='List everything recursively.')
