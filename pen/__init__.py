@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-pen: notes on the command line
+pen: terminal notes
 """
 
 __author__ = 'cwoebker'
-__version__ = '0.1.0'
+__version__ = '0.3.0'
 __license__ = 'BSD'

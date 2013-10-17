@@ -15,6 +15,7 @@ except ImportError:
 with open('reqs.txt') as f:
     required = f.readlines()
 
+tests_require = ['nose']
 
 settings = dict()
 
@@ -28,7 +29,7 @@ if sys.argv[-1] == 'publish':
 settings.update(
     name='pen',
     version=pen.__version__,
-    description='Simple notes on the command line.',
+    description='pen: terminal notes',
     long_description=open('README.md').read(),
     author=pen.__author__,
     author_email='me@cwoebker.com',
@@ -43,7 +44,7 @@ settings.update(
         ],
     },
     classifiers=(
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Console',
         'Natural Language :: English',
         'Intended Audience :: Developers',

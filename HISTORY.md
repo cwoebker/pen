@@ -1,5 +1,14 @@
 # History #
 
+## 0.3.0 ##
+
+*October 17th 2013*
+
+- Adds support for custom storage location
+- Can also be stored in Dropbox & co
+- Simplified usage
+- First official release
+
 ## 0.1.0 ##
 
 *January 20th 2013*
