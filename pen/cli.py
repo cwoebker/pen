@@ -3,7 +3,7 @@
 pen.cli - command line stuff
 """
 
-from clint import args
+from clint import arguments
 from clint.textui import colored, puts
 
 from . import __version__
@@ -11,6 +11,7 @@ from .core import ExitStatus, show_error
 from .core import cmd_path, cmd_all, cmd_list, cmd_delete, cmd_create_list, cmd_touch_note
 from .storage import store
 
+args = arguments.Args()
 
 def main():
     arg = args.get(0)
