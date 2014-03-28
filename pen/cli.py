@@ -24,7 +24,7 @@ def main():
             display_info()
         elif args.contains(('-v', '--version')):
             puts('{0} v{1}'.format(
-                colored.yellow('como'),
+                colored.yellow('pen'),
                 __version__
             ))
         else:
@@ -47,7 +47,7 @@ def display_info():
 
     puts('Usage: {0} {1}'.format(
         colored.yellow('pen'), colored.green('<command> | <note>')))
-    puts('---------------------')
+    puts('-----------------------------')
     for command in Command.all_commands():
         usage = command.usage or command.name
         help = command.help or ''
