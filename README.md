@@ -4,6 +4,8 @@
 
 [![Status unavailable](https://secure.travis-ci.org/cwoebker/pen.png?branch=master)](http://travis-ci.org/cwoebker/pen)
 
+[![Code Issues](http://www.quantifiedcode.com/project/1ada6ecdf18548e08cf90fee32d28b93/badge.svg)](http://www.quantifiedcode.com/app#/project/1ada6ecdf18548e08cf90fee32d28b93)
+
 ---
 
 ## What is this? ##
