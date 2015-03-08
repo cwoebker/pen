@@ -4,7 +4,6 @@ pen.edit - editor stuff
 """
 
 import urwid
-import urwid.raw_display
 
 
 # Most of the following code was adapted from the urwid online examples.
@@ -118,7 +117,7 @@ class EditDisplay:
 
     footer_text = ('foot', [
         "Pen | ",
-        ('key', "esc"), " close ",
+        ('key', "esc"), " save & close ",
         ])
 
     def __init__(self, name):
@@ -129,38 +128,15 @@ class EditDisplay:
         self.view = urwid.Frame(urwid.AttrWrap(self.listbox, 'body'), footer=self.footer)
 
     def main(self):
-        self.ui = urwid.raw_display.Screen()
-        self.ui.register_palette(self.palette)
-        self.ui.run_wrapper(self.run)
-
-    def run(self):
-        self.ui.set_mouse_tracking()
-        size = self.ui.get_cols_rows()
-        while 1:
-            canvas = self.view.render(size, focus=1)
-            self.ui.draw_screen(size, canvas)
-            keys = None
-            while not keys:
-                keys = self.ui.get_input()
-            for k in keys:
-                if urwid.is_mouse_event(k):
-                    event, button, col, row = k
-                    self.view.mouse_event(size, event, button, col, row, focus=True)
-                    continue
-                if k == 'window resize':
-                    size = self.ui.get_cols_rows()
-                    continue
-                elif k == "esc":
-                    self.save_file()
-                    return
-
-                k = self.view.keypress(size, k)
-                if k is not None:
-                    self.handle_keypress(size, k)
-
-    def handle_keypress(self, size, k):
+        self.loop = urwid.MainLoop(self.view, self.palette, unhandled_input=self.handle_keypress)
+        self.loop.run()
+    
+    def handle_keypress(self, k):
         """Last resort for keypresses."""
-        if k == "delete":
+        if k == "esc":
+            self.save_file()
+            raise urwid.ExitMainLoop()
+        elif k == "delete":
             # delete at end of line
             self.walker.combine_focus_with_next()
         elif k == "backspace":
