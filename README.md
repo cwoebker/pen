@@ -1,6 +1,6 @@
 # pen: terminal notes
 
-[`pen`](https://github.com/cwoebker/pen) is a minimalistic not taking app for the command line.
+[`pen`](https://github.com/cwoebker/pen) is a minimalistic note taking app for the command line.
 
 [![Status unavailable](https://secure.travis-ci.org/cwoebker/pen.png?branch=master)](http://travis-ci.org/cwoebker/pen)
 
