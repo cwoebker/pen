@@ -1,6 +1,13 @@
 # History #
 
-## 0.3.0 ##
+## 0.4 ##
+
+*March 23rd 2015*
+
+- Some bug fixes
+- Using the "paxo" command line library
+
+## 0.3 ##
 
 *October 17th 2013*
 
@@ -9,7 +16,7 @@
 - Simplified usage
 - First official release
 
-## 0.1.0 ##
+## 0.1 ##
 
 *January 20th 2013*
 
