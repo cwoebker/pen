@@ -3,7 +3,7 @@
 pen.cli - command line stuff
 """
 
-from paxo import Paxo
+from paxo.core import Paxo
 
 from pen import __version__
 from pen.core import cmd_touch_note, cmd_list
