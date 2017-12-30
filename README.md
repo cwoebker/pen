@@ -67,5 +67,5 @@ Follow [@cwoebker](http://twitter.com/cwoebker)
 
 ---
 
-Copyright (c) 2013-2015, Cecil Woebker.
+Copyright (c) 2013-2018, Cecil Woebker.
 License: BSD (see LICENSE for details)
