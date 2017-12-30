@@ -24,9 +24,9 @@ before_install:
 install:
   - python setup.py install
 
-before_script:
-  - pip install nose2
+#before_script:
+#  - pip install nose2
 
-script:
-  - nose2 --verbose test_pen
+#script:
+#  - nose2 --verbose test_pen
 
