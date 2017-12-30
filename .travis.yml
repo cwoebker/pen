@@ -1,9 +1,13 @@
 language: python
 python:
-  #- "2.5" # clint doesn't support
   - "2.6"
   - "2.7"
-  #- "3.2" # not sure
+  - "pypy"
+#  - "3.2"
+#  - "3.3" # not sure
+#  - "3.4"
+#  - "pypy3"
+#  - "nightly"
 
 notifications:
   email:
@@ -15,17 +19,14 @@ notifications:
 # environment variables to set
 #env: RELO_PATH=/path/to/relo
 
-# command to run tests
-#before_script:
-#  -
-script: nosetests
-#after_script:
-#  -
-
-# command to install dependencies
 before_install:
-  - pip install -r reqs.txt --use-mirrors
+  - pip install -r reqs.txt
 install:
   - python setup.py install
-#after_command:
-#  -
+
+before_script:
+  - pip install nose2
+
+script:
+  - nose2 --verbose test_pen
+
