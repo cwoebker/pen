@@ -2,9 +2,15 @@
 
 [`pen`](https://github.com/cwoebker/pen) is a minimalistic note taking app for the command line.
 
-[![Status unavailable](https://secure.travis-ci.org/cwoebker/pen.png?branch=master)](http://travis-ci.org/cwoebker/pen)
+[![PyPI Version](https://img.shields.io/pypi/v/penpal.svg)](https://pypi.python.org/pypi/penpal)
 
-[![Code Issues](http://www.quantifiedcode.com/project/1ada6ecdf18548e08cf90fee32d28b93/badge.svg)](http://www.quantifiedcode.com/app#/project/1ada6ecdf18548e08cf90fee32d28b93)
+[![Build Status](https://secure.travis-ci.org/cwoebker/pen.png?branch=master)](http://travis-ci.org/cwoebker/pen)
+
+[![PyPI License](https://img.shields.io/pypi/l/penpal.svg)](https://pypi.python.org/pypi/penpal)
+
+[![PyPI Python Versions](https://img.shields.io/pypi/pyversions/penpal.svg)](https://pypi.python.org/pypi/penpal)
+
+[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/cwoebker)
 
 ---
 
