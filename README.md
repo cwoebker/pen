@@ -25,7 +25,7 @@ It's as simple as that:
 
 `$ pip install penpal`
 
-Unfortunately pen was already taken.
+Unfortunately "pen" was already taken.
 
 ## Usage
 
@@ -35,18 +35,20 @@ Unfortunately pen was already taken.
 
 `pen delete <list> (<note>)` - Delete a list or note.
 
-`pen help` - Displays pen help
+`pen help` - Display help information.
 
 `pen help <command>` - Displays help for a command.
 
 ## Advanced
 
 `pen` stores all its data (with zlib compression) in the file `~/.pen`.
-You are free to do whatever you want with the data in that file, it is yours after all.
+You are free to do whatever you want with this data, it is yours after all.
+This is helpful, if you want to keep your notes synchronized over multiple computers.
+Move the data file over to your Dropbox folder for example.
 
 You can also change the path of the storage file:
 
-`pen path <new_path>` - Either prints the current storage path or sets a new one.
+`pen path <path>` - Either prints the current storage path or sets a new one.
 
 So go out there and hack some code!
 
@@ -55,7 +57,7 @@ So go out there and hack some code!
 - Minimalistic and simple note editor.
 - Automatic saving when closed.
 - Create lists to group notes.
-- Put the storage file wherever you want. (Supports Dropbox & co)
+- Put the storage file wherever you want. (Supports Dropbox & co.)
 
 ## Contribute
 
@@ -63,9 +65,9 @@ So go out there and hack some code!
 
 ---
 
-For questions and suggestions, feel free to shoot me an email <me@cwoebker.com>
+For questions and suggestions, feel free to shoot me an email at <me@cwoebker.com>.
 
-Follow [@cwoebker](http://twitter.com/cwoebker)
+Also, follow or tweet [@cwoebker](http://twitter.com/cwoebker).
 
 ---
 
