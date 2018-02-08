@@ -17,7 +17,7 @@ What makes it special is that it is “only“ a command line application.
 Therefore you can even run it on your own server.
 Pen has a minimalistic interface; notes can be added and grouped in a simple manner.
 
-![Pen Terminal](http://cwoebker.com/assets/img/posts/pen.jpg)
+![Pen Terminal](https://cwoebker.com/assets/img/posts/pen.jpg)
 
 ## Installation
 
@@ -61,13 +61,13 @@ So go out there and hack some code!
 
 ## Contribute
 
-[Fork and contribute!](http://github.com/cwoebker/pen)
+[Fork and contribute!](https://github.com/cwoebker/pen)
 
 ---
 
 For questions and suggestions, feel free to shoot me an email at <me@cwoebker.com>.
 
-Also, follow or tweet [@cwoebker](http://twitter.com/cwoebker).
+Also, follow or tweet [@cwoebker](https://twitter.com/cwoebker).
 
 ---
 
