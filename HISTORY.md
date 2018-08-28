@@ -5,7 +5,7 @@
 *March 23rd 2015*
 
 - Some bug fixes
-- Using the "paxo" command line library
+- Using my "paxo" cli library
 
 ## 0.3 ##
 

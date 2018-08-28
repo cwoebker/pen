@@ -34,4 +34,5 @@ class PenStorage(SimpleStorage):
     def deleteNote(self, listname, notename):
         self.data[listname].pop(notename, None)
 
+
 penStore = PenStorage()
