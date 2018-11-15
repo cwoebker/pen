@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "854565109795649670c3cfdae7b2dfaba1e41cb9ba450cb1b090b552c140242c"
+            "sha256": "4385bb9dde32c0933a8fe227a069cc2f8ce1de536aa6884742ea8c0e2d1ca26f"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -29,11 +29,11 @@
         },
         "paxo": {
             "hashes": [
-                "sha256:4c880a8bf9f8b5205c13c9b9c735de2b63f5f11a5b5692722730bd69d53b5a77",
-                "sha256:95f6d51f8f2e3615e0af7c03b70d1707b75d3d2cd0b5e19cc28b2a20b4ae44cd"
+                "sha256:6c7119db1298464cb5fe5e30c000819b471314624194045619c24be2d3e892ec",
+                "sha256:fb1ef7a812516986da506d921caceca5785585bba0a95ffa8f4b54b9ff2cacfd"
             ],
             "index": "pypi",
-            "version": "==0.2.1"
+            "version": "==0.2.2"
         },
         "urwid": {
             "hashes": [

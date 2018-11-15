@@ -27,7 +27,9 @@ LICENSE = pen.__license__
 
 # What packages are required for this module to be executed?
 REQUIRED = [
-    'clint', 'urwid', 'paxo'
+    'clint',
+    'urwid',
+    'paxo>=0.2.2'
 ]
 
 # What packages are optional?
