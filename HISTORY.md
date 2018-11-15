@@ -1,5 +1,17 @@
 # History #
 
+## 0.4.2 ##
+
+*November 15th 2018*
+
+- Require new paxo version (0.2.2) in order to create directory for data file automatically
+
+## 0.4.1 ##
+
+*August 28th 2018*
+
+- Using XDG_DATA_HOME as default for pen data file
+
 ## 0.4 ##
 
 *March 23rd 2015*
