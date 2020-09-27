@@ -8,7 +8,7 @@ name = "pypi"
 
 clint = "*"
 urwid = "*"
-paxo = ">=0.2.2"
+paxo = ">=0.3.0"
 
 [dev-packages]
 

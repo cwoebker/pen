@@ -21,7 +21,7 @@ DESCRIPTION = 'pen: terminal notes'
 URL = 'https://github.com/cwoebker/pen'
 EMAIL = 'me@cwoebker.com'
 AUTHOR = pen.__author__
-REQUIRES_PYTHON = '>=2.7.0'
+REQUIRES_PYTHON = '>=3.6.0'
 VERSION = pen.__version__
 LICENSE = pen.__license__
 
@@ -132,7 +132,10 @@ setup(
         'Topic :: Utilities',
         'Topic :: Text Processing',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy'
     ],

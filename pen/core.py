@@ -25,7 +25,7 @@ def cmd_path(args):
         else:
             puts(colored.red("Not a valid Path."))
     else:
-        print penStore.path
+        puts(penStore.path)
 
 
 @cmd(help='List elements.')
@@ -93,9 +93,9 @@ def cmd_delete(args):
         else:
             puts("no such list, sorry! (%s)" % major)
     else:
-        print """
+        puts("""
 - pen: delete help ------------------------------------------------------------
 
 pen delete <list>                 deletes list and all of its notes
 pen delete <list> <note>          deletes note
-"""
+""")

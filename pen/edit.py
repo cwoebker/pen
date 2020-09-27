@@ -146,8 +146,8 @@ class EditDisplay:
             # start new line
             self.walker.split_focus()
             # move the cursor to the new line and reset pref_col
-            self.view.keypress(size, "down")
-            self.view.keypress(size, "home")
+            self.view.keypress((0, 10), "down")  # hard-coded hotfix
+            self.view.keypress((0, 10), "home")  # hard-coded hotfix
 
     def save_file(self):
         """Write the file out to disk."""
