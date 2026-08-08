@@ -1,0 +1,7 @@
+[tools]
+python = "3.11"
+uv = "0.12.3"
+
+[env]
+# Keep the project virtualenv inside the repo so `mise` and `uv` agree on it.
+UV_PROJECT_ENVIRONMENT = ".venv"
