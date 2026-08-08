@@ -1,0 +1,156 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  # Required, even though tags are the normal trigger. bump-version.yml pushes
+  # its tag with the default GITHUB_TOKEN, and GitHub deliberately suppresses
+  # workflow runs triggered by GITHUB_TOKEN-authored pushes to avoid recursion.
+  # The tag landing therefore cannot start this workflow on its own, so
+  # bump-version ends by dispatching it explicitly.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  # Never cancel a release. A publish cancelled between the PyPI upload and the
+  # GitHub release leaves a version live on PyPI with no matching tag release
+  # and no way to re-publish it, because PyPI refuses to reuse a version.
+  cancel-in-progress: false
+
+env:
+  PACKAGE_NAME: penpal
+
+jobs:
+  build:
+    name: Verify and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v9.0.0
+        with:
+          enable-cache: true
+
+      - name: Verify the tag matches the project version
+        id: version
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VERSION="${TAG#v}"
+          PROJECT_VERSION="$(uv version --short)"
+          if [ "$VERSION" != "$PROJECT_VERSION" ]; then
+            echo "::error::tag ${TAG} does not match pyproject.toml version ${PROJECT_VERSION}"
+            exit 1
+          fi
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Releasing ${PACKAGE_NAME} ${VERSION}"
+
+      - name: Check the version is not already on PyPI
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          URL="https://pypi.org/pypi/${PACKAGE_NAME}/${VERSION}/json"
+          # The trailing `|| true` is load-bearing. Steps run under `bash -e`,
+          # so without it a curl failure would abort the assignment and fail
+          # the build on any transient network blip. Only a definitive 200
+          # blocks the release; anything else means "not published".
+          STATUS="$(curl -s --max-time 10 -o /dev/null -w '%{http_code}' "$URL" || true)"
+          if [ "$STATUS" = "200" ]; then
+            echo "::error::${PACKAGE_NAME} ${VERSION} is already on PyPI. PyPI keys distributions on (project, version, type) and never allows reuse, so this version can never be replaced. Bump the version instead."
+            exit 1
+          fi
+          echo "PyPI returned ${STATUS} for ${VERSION}; continuing."
+
+      - name: Extract the changelog section
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          # Exact string match on the heading rather than a regex, so dots in
+          # the version are not treated as wildcards.
+          awk -v heading="## ${VERSION} ##" '
+            $0 == heading { found = 1; next }
+            found && /^## / { exit }
+            found { print }
+          ' HISTORY.md > release-notes.md
+          # grep rather than `[ -s ]`: a heading followed only by blank lines
+          # produces a non-empty file with no actual release notes in it.
+          if ! grep -q '[^[:space:]]' release-notes.md; then
+            echo "::error::HISTORY.md has no '## ${VERSION} ##' section. Add one before releasing."
+            exit 1
+          fi
+          echo "--- release notes ---"
+          cat release-notes.md
+
+      - name: Build
+        run: uv build
+
+      # Built once here and carried through publish and the GitHub release, so
+      # the artifacts attached to the release are byte-identical to the ones
+      # uploaded to PyPI rather than a second, separately-built copy.
+      - uses: actions/upload-artifact@v7
+        with:
+          name: release-${{ steps.version.outputs.version }}
+          path: |
+            dist/
+            release-notes.md
+          if-no-files-found: error
+
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+
+  test:
+    name: pytest (${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v9.0.0
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python-version }}
+      - run: uv sync --frozen
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run ty check
+      - run: uv run pytest
+
+  publish:
+    name: Publish to PyPI
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    environment:
+      name: release
+      url: https://pypi.org/p/penpal
+    permissions:
+      # Trusted publishing via OIDC. No API token is stored anywhere.
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: release-${{ needs.build.outputs.version }}
+      - name: Publish
+        # Deliberately no `skip-existing`. It turns "this exact version is
+        # already published" into a silent success, which hides a
+        # different-build-same-version mistake. The pre-check above is the
+        # intended guard, and it fails loudly.
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  github-release:
+    name: GitHub release
+    needs: [build, publish]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: release-${{ needs.build.outputs.version }}
+      - uses: softprops/action-gh-release@v3
+        with:
+          tag_name: v${{ needs.build.outputs.version }}
+          name: v${{ needs.build.outputs.version }}
+          body_path: release-notes.md
+          files: dist/*
+          fail_on_unmatched_files: true
