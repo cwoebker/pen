@@ -1,0 +1,89 @@
+name: Bump version
+
+# One-click release. Write the HISTORY.md entry for the new version first --
+# this workflow refuses to tag without one, so the failure happens here rather
+# than after the package is already on PyPI.
+
+on:
+  workflow_dispatch:
+    inputs:
+      part:
+        description: "Which part of the version to bump"
+        required: true
+        type: choice
+        default: patch
+        options: [patch, minor, major]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  # Shares the `release` group with release.yml, and never cancels. Two
+  # concurrent bumps would race on pushing the version commit and the tag, and
+  # the loser would push a tag pointing at the wrong commit.
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      # Needed for `gh workflow run` to dispatch release.yml.
+      actions: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v9.0.0
+        with:
+          enable-cache: true
+
+      - name: Bump the version
+        id: bump
+        run: |
+          uv version --bump "${{ inputs.part }}"
+          uv lock
+          VERSION="$(uv version --short)"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "New version: ${VERSION}"
+
+      - name: Require a changelog entry
+        run: |
+          VERSION="${{ steps.bump.outputs.version }}"
+          if ! grep -qxF "## ${VERSION} ##" HISTORY.md; then
+            echo "::error::HISTORY.md has no '## ${VERSION} ##' section. Add it, then re-run this workflow."
+            exit 1
+          fi
+
+      - name: Guard against re-releasing a published version
+        run: |
+          VERSION="${{ steps.bump.outputs.version }}"
+          # Same `|| true` reasoning as release.yml: a network blip must not
+          # fail the run, and only a definitive 200 blocks.
+          STATUS="$(curl -s --max-time 10 -o /dev/null -w '%{http_code}' \
+            "https://pypi.org/pypi/penpal/${VERSION}/json" || true)"
+          if [ "$STATUS" = "200" ]; then
+            echo "::error::penpal ${VERSION} is already on PyPI and can never be replaced. Bump a different part."
+            exit 1
+          fi
+
+      - name: Commit, tag and push
+        run: |
+          VERSION="${{ steps.bump.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pyproject.toml uv.lock
+          git commit -m "Bump version to ${VERSION}"
+          git tag -a "v${VERSION}" -m "v${VERSION}"
+          git push origin HEAD --follow-tags
+
+      - name: Start the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # The push above used GITHUB_TOKEN, and GitHub suppresses workflow
+          # runs triggered by GITHUB_TOKEN-authored pushes. release.yml will
+          # not start by itself, which is why it also declares
+          # workflow_dispatch. --ref is the tag, so release.yml sees the same
+          # GITHUB_REF_NAME it would have from a real tag push.
+          gh workflow run release.yml --ref "v${{ steps.bump.outputs.version }}"
+          echo "Dispatched release.yml for v${{ steps.bump.outputs.version }}"
