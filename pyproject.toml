@@ -1,0 +1,87 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "penpal"
+version = "0.6.0"
+description = "pen: terminal notes"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Cecil Wöbker", email = "me@cwoebker.com" }]
+keywords = ["cli", "notes", "terminal", "tui", "editor"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Environment :: Console :: Curses",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Natural Language :: English",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Terminals",
+    "Topic :: Text Editors",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "click>=8.1",
+    "rich>=13.7",
+    # Pinned below 5 on purpose: urwid ships a major roughly yearly (4.0 landed
+    # 2026-03) and pen drives its widget API directly. Dependabot proposes the
+    # bump so it is reviewed, never picked up silently.
+    "urwid>=4.0.8,<5",
+]
+
+[project.urls]
+Homepage = "https://github.com/cwoebker/pen"
+Repository = "https://github.com/cwoebker/pen"
+Changelog = "https://github.com/cwoebker/pen/blob/master/HISTORY.md"
+Issues = "https://github.com/cwoebker/pen/issues"
+
+[project.scripts]
+pen = "pen.cli:main"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.0",
+    "pytest>=8.0",
+    "pytest-cov>=6.0",
+    "ruff>=0.14",
+    "ty>=0.0.68",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["pen"]
+
+[tool.hatch.build.targets.sdist]
+include = ["pen", "tests", "README.md", "HISTORY.md", "LICENSE"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ty.src]
+include = ["pen", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = [
+    "--cov=pen",
+    "--cov-branch",
+    "--cov-report=term-missing",
+    "--strict-markers",
+]
+
+[tool.coverage.report]
+exclude_also = ["if TYPE_CHECKING:", "raise NotImplementedError"]
