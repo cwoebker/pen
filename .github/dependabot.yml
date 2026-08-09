@@ -6,10 +6,6 @@ updates:
     schedule:
       interval: "weekly"
     groups:
-      # One PR for all Python updates rather than one per package. pen has
-      # three runtime dependencies and five dev tools; separate PRs for each
-      # would be more review overhead than the updates are worth, and they all
-      # have to pass the same CI anyway.
       python:
         patterns: ["*"]
 

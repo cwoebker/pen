@@ -3,9 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    # Only the default branch. An unrestricted push trigger runs every branch
-    # twice on every PR -- once for the push, once for the pull_request -- which
-    # doubles the bill and makes required-check status ambiguous.
+    # Default branch only: an unrestricted push trigger double-runs every PR.
     branches: [master]
 
 permissions:
@@ -16,8 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # Fail rather than silently re-resolving if uv.lock is out of date with
-  # pyproject.toml. CI must test the versions the lockfile pins.
+  # Fail rather than silently re-resolving when uv.lock is out of date.
   UV_FROZEN: "1"
 
 jobs:
@@ -52,6 +49,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # Keep in sync with the Programming Language :: classifiers in pyproject.toml.
         python-version: ["3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v7

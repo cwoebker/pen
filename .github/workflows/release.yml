@@ -2,12 +2,8 @@ name: Release
 
 on:
   push:
-    tags: ["v*"]
-  # Required, even though tags are the normal trigger. bump-version.yml pushes
-  # its tag with the default GITHUB_TOKEN, and GitHub deliberately suppresses
-  # workflow runs triggered by GITHUB_TOKEN-authored pushes to avoid recursion.
-  # The tag landing therefore cannot start this workflow on its own, so
-  # bump-version ends by dispatching it explicitly.
+    tags: ["v*.*.*"]
+  # Required: bump-version.yml's tag push uses GITHUB_TOKEN, which never triggers workflows.
   workflow_dispatch:
 
 permissions:
@@ -15,9 +11,7 @@ permissions:
 
 concurrency:
   group: release
-  # Never cancel a release. A publish cancelled between the PyPI upload and the
-  # GitHub release leaves a version live on PyPI with no matching tag release
-  # and no way to re-publish it, because PyPI refuses to reuse a version.
+  # Never cancel: a half-done publish strands a version on PyPI that can never be reused.
   cancel-in-progress: false
 
 env:
@@ -50,10 +44,7 @@ jobs:
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           URL="https://pypi.org/pypi/${PACKAGE_NAME}/${VERSION}/json"
-          # The trailing `|| true` is load-bearing. Steps run under `bash -e`,
-          # so without it a curl failure would abort the assignment and fail
-          # the build on any transient network blip. Only a definitive 200
-          # blocks the release; anything else means "not published".
+          # `|| true` keeps a transient curl failure from aborting under `bash -e`; only a 200 blocks.
           STATUS="$(curl -s --max-time 10 -o /dev/null -w '%{http_code}' "$URL" || true)"
           if [ "$STATUS" = "200" ]; then
             echo "::error::${PACKAGE_NAME} ${VERSION} is already on PyPI. PyPI keys distributions on (project, version, type) and never allows reuse, so this version can never be replaced. Bump the version instead."
@@ -64,15 +55,12 @@ jobs:
       - name: Extract the changelog section
         run: |
           VERSION="${{ steps.version.outputs.version }}"
-          # Exact string match on the heading rather than a regex, so dots in
-          # the version are not treated as wildcards.
           awk -v heading="## ${VERSION} ##" '
             $0 == heading { found = 1; next }
             found && /^## / { exit }
             found { print }
           ' HISTORY.md > release-notes.md
-          # grep rather than `[ -s ]`: a heading followed only by blank lines
-          # produces a non-empty file with no actual release notes in it.
+          # grep, not `[ -s ]`: a heading with only blank lines under it still yields a non-empty file.
           if ! grep -q '[^[:space:]]' release-notes.md; then
             echo "::error::HISTORY.md has no '## ${VERSION} ##' section. Add one before releasing."
             exit 1
@@ -83,9 +71,6 @@ jobs:
       - name: Build
         run: uv build
 
-      # Built once here and carried through publish and the GitHub release, so
-      # the artifacts attached to the release are byte-identical to the ones
-      # uploaded to PyPI rather than a second, separately-built copy.
       - uses: actions/upload-artifact@v7
         with:
           name: release-${{ steps.version.outputs.version }}
@@ -131,10 +116,7 @@ jobs:
         with:
           name: release-${{ needs.build.outputs.version }}
       - name: Publish
-        # Deliberately no `skip-existing`. It turns "this exact version is
-        # already published" into a silent success, which hides a
-        # different-build-same-version mistake. The pre-check above is the
-        # intended guard, and it fails loudly.
+        # No `skip-existing`: it would turn an already-published version into a silent success.
         uses: pypa/gh-action-pypi-publish@release/v1
 
   github-release:

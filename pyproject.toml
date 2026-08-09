@@ -71,8 +71,14 @@ target-version = "py311"
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
 
+[tool.ruff.lint.isort]
+known-first-party = ["pen"]
+
 [tool.ty.src]
 include = ["pen", "tests"]
+
+[tool.ty.environment]
+python-version = "3.11"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -83,5 +89,11 @@ addopts = [
     "--strict-markers",
 ]
 
+[tool.coverage.run]
+source = ["pen"]
+branch = true
+
 [tool.coverage.report]
+show_missing = true
+skip_covered = false
 exclude_also = ["if TYPE_CHECKING:", "raise NotImplementedError"]

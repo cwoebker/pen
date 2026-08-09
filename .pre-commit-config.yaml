@@ -8,10 +8,6 @@ repos:
 
   - repo: local
     hooks:
-      # ty has no upstream pre-commit repo yet, and a mirror would pin a second
-      # copy of the version pyproject already pins. Running it through `uv run`
-      # resolves it against the project environment, so the hook and CI cannot
-      # drift apart.
       - id: ty
         name: ty
         entry: uv run ty check
