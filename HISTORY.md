@@ -2,7 +2,7 @@
 
 ## 0.6.0 ##
 
-*August 6th 2026*
+*August 9th 2026*
 
 **Storage**
 
