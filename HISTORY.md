@@ -1,5 +1,23 @@
 # History #
 
+## 0.6.1 ##
+
+*August 15th 2026*
+
+Release tooling only; no user-facing changes.
+
+- The bump workflow derives the version from this file. Its `auto` default
+  releases the top section, so the next version no longer has to be predicted
+  and written in before the bump runs.
+- Picking patch/minor/major instead generates the section from commit subjects
+  since the last tag, behind an approval gate that shows the notes before
+  anything is tagged or pushed.
+- The release trigger matches `v*.*.*` only, so a stray or prerelease tag
+  cannot start a publish.
+- ty type-checks against Python 3.11, pen's actual floor, rather than whatever
+  interpreter runs it, and coverage settings moved into `pyproject.toml` so a
+  direct `coverage` run behaves like pytest's.
+
 ## 0.6.0 ##
 
 *August 9th 2026*
