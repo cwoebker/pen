@@ -37,7 +37,7 @@ dependencies = [
     # Pinned below 5 on purpose: urwid ships a major roughly yearly (4.0 landed
     # 2026-03) and pen drives its widget API directly. Dependabot proposes the
     # bump so it is reviewed, never picked up silently.
-    "urwid>=4.0.8,<5",
+    "urwid>=4.0.8,<6",
 ]
 
 [project.urls]
