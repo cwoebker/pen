@@ -145,7 +145,12 @@ def test_edit_text_helper(monkeypatch: pytest.MonkeyPatch) -> None:
 def test_footer_shows_the_note_title(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(urwid.MainLoop, "run", lambda self: None)
     display = EditDisplay("x", title="work/todo")
-    assert "work/todo" in display.footer.base_widget.text
+    # urwid 5 types AttrMap.base_widget as AbstractWidget, and Text.text is str | bytes.
+    footer = display.footer.base_widget
+    assert isinstance(footer, urwid.Text)
+    text = footer.text
+    assert isinstance(text, str)
+    assert "work/todo" in text
 
 
 def test_an_edited_line_is_saved_as_it_was_typed() -> None:
